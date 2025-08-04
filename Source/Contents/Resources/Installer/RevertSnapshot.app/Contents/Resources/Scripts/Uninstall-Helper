@@ -1,0 +1,15 @@
+#!/bin/bash
+# Revert-Snapshot Copyright (c) 2025, chris1111. All Right Reserved
+# Vars
+echo "==============================="
+echo "Revert Snapshot"
+echo ""
+sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --last-sealed-snapshot
+Sleep 1
+echo "After Restart
+The System will be on Last-Sealed-Snapshot"
+echo ""
+echo "Done"
+echo "==============================="
+echo "Unmount the root volume, operation complete"
+diskutil unmount /System/Volumes/Update/mnt1

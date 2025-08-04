@@ -1,0 +1,315 @@
+#!/bin/sh
+# Kext-Drop
+# Copyright (c) 2025, chris1111. All Right Reserved
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# Vars
+TempDir="/Private/tmp/Install"
+apptitle="Kext-Drop"
+version="1.0"
+# Set Icon directory and file 
+export ICNS=$(dirname "${0}")
+iconfile="$ICNS/AppIcon.icns"
+echo "======================================================"
+echo "Kext-Drop Patcher Starting. - $( date )"
+echo "====================================================="
+
+# Install Files
+for file in "${TempDir}"/*; 
+do
+Sleep 1
+echo Install "${file##*/}"
+Sleep 1
+done
+echo "Install Done.
+====================================================="
+
+
+
+#### START SCRIPT ####
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 11.* ]]; then
+printf -- '%s\n' "This Mac is running macOS BigSur $macOSVersion" 
+Sleep 2
+# Kext Cache repair
+echo "Kext Cache repair! Please wait. ."
+osascript -e 'do shell script "chown -R root:wheel /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+osascript -e 'do shell script "chmod -R 755 /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+osascript -e 'do shell script "kmutil install --volume-root /System/Volumes/Update/mnt1/ --update-all" with administrator privileges'
+osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+Sleep 2
+diskutil unmount /System/Volumes/Update/mnt1
+echo "Unmount the root volume, operation complete"
+echo "Done"
+
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 12.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Monterey $macOSVersion" 
+Sleep 2
+# Kext Cache repair
+echo "Kext Cache repair! Please wait. ."
+osascript -e 'do shell script "chown -R root:wheel /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+osascript -e 'do shell script "chmod -R 755 /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+osascript -e 'do shell script "kmutil install --volume-root /System/Volumes/Update/mnt1/ --update-all" with administrator privileges'
+osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+Sleep 2
+diskutil unmount /System/Volumes/Update/mnt1
+echo "Unmount the root volume, operation complete"
+echo "Done"
+
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 13.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Ventura $macOSVersion" 
+file="/Library/Developer/KDKs"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+else
+ echo "KDKs is is not installed"
+ echo "Using KDK 22H625"
+ echo "Download KDKs by CURL silently. Please wait. ."
+ curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_22H625.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
+ echo "Done! "
+ Sleep 2
+ echo "Attach Kernel_Debug_Kit"
+ hdiutil attach /Private/tmp/Kernel_Debug_Kit.dmg -noverify -nobrowse -mountpoint /Volumes/KDK
+ # Install PKG
+ echo "Install Kernel_Debug_Kit"
+ osascript -e 'do shell script "installer -allowUntrusted -verboseR -pkg /Volumes/KDK/KernelDebugKit.pkg -target /" with administrator privileges'
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+fi
+ 
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 14.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Sonoma $macOSVersion" 
+file="/Library/Developer/KDKs"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+else
+ echo "KDKs is is not installed"
+ echo "Using KDK 23H626"
+ echo "Download KDKs by CURL silently. Please wait. ."
+ curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_23H626.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
+ echo "Done! "
+ Sleep 2
+ echo "Attach Kernel_Debug_Kit"
+ hdiutil attach /Private/tmp/Kernel_Debug_Kit.dmg -noverify -nobrowse -mountpoint /Volumes/KDK
+ # Install PKG
+ echo "Install Kernel_Debug_Kit"
+ osascript -e 'do shell script "installer -allowUntrusted -verboseR -pkg /Volumes/KDK/KernelDebugKit.pkg -target /" with administrator privileges'
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+fi
+ 
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 15.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Sequoia $macOSVersion" 
+file="/Library/Developer/KDKs"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+else
+ echo "KDKs is is not installed"
+ echo "Using KDK 24F74"
+ echo "Download KDKs by CURL silently. Please wait. ."
+ curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_24F74.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
+ echo "Done! "
+ Sleep 2
+ echo "Attach Kernel_Debug_Kit"
+ hdiutil attach /Private/tmp/Kernel_Debug_Kit.dmg -noverify -nobrowse -mountpoint /Volumes/KDK
+ # Install PKG
+ echo "Install Kernel_Debug_Kit"
+ osascript -e 'do shell script "installer -allowUntrusted -verboseR -pkg /Volumes/KDK/KernelDebugKit.pkg -target /" with administrator privileges'
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+fi
+ 
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 26.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Tahoe $macOSVersion" 
+file="/Library/Developer/KDKs"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+else
+ echo "KDKs is is not installed"
+ echo "Using KDK 25A5279m"
+ echo "Download KDKs by CURL silently. Please wait. ."
+ curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_25A5279m.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
+ echo "Done! "
+ Sleep 2
+ echo "Attach Kernel_Debug_Kit"
+ hdiutil attach /Private/tmp/Kernel_Debug_Kit.dmg -noverify -nobrowse -mountpoint /Volumes/KDK
+ # Install PKG
+ echo "Install Kernel_Debug_Kit"
+ osascript -e 'do shell script "installer -allowUntrusted -verboseR -pkg /Volumes/KDK/KernelDebugKit.pkg -target /" with administrator privileges'
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ Sleep 2
+ # Merge KDKs
+ osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ Sleep 1
+ osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
+ osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ Sleep 1
+ # Unmount Snapshot
+ Sleep 1
+if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+    echo "KDK merge successful"
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+fi
+ Sleep 2
+fi
+ 
+fi
+
+#### END OF SCRIPT ####
+echo "======================================================"
+echo "Kext-Drop Patcher Completed Done! - $( date )"
+echo "====================================================="
+mv /Private/tmp/Kext-Drop_Log.txt $HOME/Desktop/Kext-Drop_Log.txt
+Sleep 1
+Open -R $HOME/Desktop/Kext-Drop_Log.txt
+echo "Restart"
+Sleep 1
+osascript <<EOD
+  tell application "loginwindow"
+	«event aevtrrst»
+  end tell
+EOD
+Sleep 1
+killall "Kext-Drop"
+Sleep 1
+echo "QUITAPP"
+

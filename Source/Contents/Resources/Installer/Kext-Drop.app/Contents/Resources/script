@@ -1,0 +1,395 @@
+#!/bin/sh
+# Kext-Drop
+# Copyright (c) 2025, chris1111. All Right Reserved
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# Vars
+SLEDir="/System/Library/Extensions"
+TempDir="/Private/tmp/Install"
+BUSLEDir="$HOME/Desktop/BackupKext_SLE_"
+BUKextDrop="$HOME/Desktop/Backup_For_Kext_Drop_"
+TempDir="/Private/tmp/Install"
+apptitle="Kext-Drop"
+version="1.0"
+# Set Icon directory and file 
+export ICNS=$(dirname "${0}")
+iconfile="$ICNS/AppIcon.icns"
+kextdroplog="/Private/tmp/Kext-Drop_Log.txt"
+rm -rf $kextdroplog
+rm -rf $HOME/Desktop/Kext-Drop_Log.txt
+# Creating log file
+touch $kextdroplog
+Sleep 1
+
+CatalinaMajorVersion="19"
+BigSurMajorVersion="20"
+MontereyMajorVersion="21"
+VenturaMajorVersion="22"
+SonomaMajorVersion="23"
+SequoiaMajorVersion="24"
+TahoeMajorVersion="25"
+
+ThisVersion=`uname -r`
+echo ThisVersion=$ThisVersion
+
+ThisMajorVersion=${ThisVersion:0:2}
+echo ThisMajorVersion=$ThisMajorVersion
+
+case $ThisMajorVersion in
+    $CatalinaMajorVersion)   OsName="Catalina";;
+    $BigSurMajorVersion)   OsName="BigSur";;
+    $MontereyMajorVersion)   OsName="Monterey";;
+    $VenturaMajorVersion)   OsName="Ventura";;
+    $SonomaMajorVersion)   OsName="Sonoma";;
+    $SequoiaMajorVersion)   OsName="Sequoia";;
+    $TahoeMajorVersion)   OsName="Tahoe";;
+esac
+
+
+
+# Set Droping directory and file
+for files in "$@" ;do
+
+if [ "/Private/tmp/Install" ]; then
+	rm -rf "/Private/tmp/Install"
+fi
+
+mkdir -p "${TempDir}"
+Sleep 1
+
+cp -R "$@" "${TempDir}"
+
+echo "Prepare Installation for:"
+for file in "${TempDir}"/*;
+do
+echo "${file##*/}"
+done
+
+Sleep 2
+# Select Choice
+response=$(osascript -e 'tell app "System Events" to display dialog "
+Kext-Drop is a utility that allows you to install your kexts 
+In the ➢ /System/Library/Extensions/
+Or in ➢ /Library/Extensions/
+
+➥: /System/Library/Extensions Will need to use a System Snapshot.
+➥: /Library/Extensions, you have to allow software Update in Privacy & Security.
+
+NOTE: After Catalina /System/Library/Extensions/ Only Apple kexts is permitted.
+Legacy kexts can be install in /Library/Extensions for any macOS. 
+
+SIP Security must be disabled to using this program!
+
+Kext, Plugin, Bundle files are allow.
+
+Choose the option to install the kexts!" buttons {"Quit","System Library Extensions","Library Extensions"} default button 2 with title "'"$apptitle"' '"$version"'" with icon POSIX file "'"$iconfile"'"  ')
+
+action=$(echo $response | cut -d ':' -f2)
+
+# Exit if Canceled
+if [ "$action" == "Quit" ] ; then
+
+  echo "User cancelled Program closing "
+  rm -rf "/Private/tmp/Install"
+  osascript -e 'display notification "Program closing" with title "'"$apptitle"'" subtitle "User cancelled"'
+  Sleep 2
+  killall "Kext-Drop"
+  Sleep 1
+  echo "QUITAPP"
+fi
+
+Sleep 2
+
+#  user select /L/E
+if [ "$action" == "Library Extensions" ] ; then
+
+osascript <<EOD
+  tell application "Kext-Drop"
+      activate
+  end tell
+EOD
+
+echo "Verifying SIP"
+Sleep 2
+function vertifySIP {
+	echo -n "Verifying SIP..."
+	if [[ "$(csrutil status | grep "System Integrity Protection status: disabled." | wc -l)" == "       0" && "$(csrutil status | grep "Filesystem Protections: disabled" | wc -l)" == "       0" ]]; then
+		echo ""
+osascript -e 'tell app "System Events" to display dialog "SIP is enabled on this system. 
+Please disable the SIP from Bootloader or boot into Recovery HD or an Installer USB drive, open a new Terminal Window, and enter csrutil disable. When completed, reboot back into your standard macOS install, and run this Program again." with icon file "System:Library:CoreServices:CoreTypes.bundle:Contents:Resources:FileVaultIcon.icns" buttons {"OK"} default button 1 with title "Kext-Droplet-macOS (Error SIP Enable)"'
+
+osascript -e 'display notification "Program closing" sound name "default" with title "'"$apptitle"'" subtitle "SIP is Enable"'
+echo "QUITAPP"
+exit 0
+		return 1
+	fi
+	return 0		
+		
+}
+
+vertifySIP
+
+Sleep 2
+# Install Files
+osascript -e 'do shell script "chown -R root:wheel /Private/tmp/Install/*.kext" with administrator privileges'
+osascript -e 'do shell script "chmod -R 755 /Private/tmp/Install/*.kext" with administrator privileges'
+osascript -e 'do shell script "cp -R /Private/tmp/Install/*.kext /Library/Extensions/" with administrator privileges'
+echo "Kext Cache repair! Please wait. ."
+Sleep 1
+osascript -e 'do shell script "sudo touch /Library/Extensions/" with administrator privileges'
+Sleep 2
+osascript -e 'do shell script "rm -rf /Private/tmp/Install" with administrator privileges'
+echo "Verification System version"
+osascript -e 'tell app "System Events" to display dialog "You have to allow software update then restart your machine!" with icon POSIX file "'"$iconfile"'" buttons {"DONE"} default button 1 with title "Restart the machine"'
+Sleep 1
+# script Notifications
+osascript -e 'display notification "Reboot" with title "You have to allow software Update"  sound name "default"'
+
+osascript <<EOD
+  tell application "Kext-Drop"
+      activate
+  end tell
+EOD
+
+Sleep 2
+killall "Kext-Drop"
+Sleep 1
+echo "QUITAPP"
+ 
+fi
+
+#  user select /S/L/E
+if [ "$action" == "System Library Extensions" ] ; then
+# Files
+In="/Private/tmp/Install"
+if [ -f $In ]; then
+osascript -e 'do shell script "chown -R root:wheel /Private/tmp/Install/*.kext" with administrator privileges'
+osascript -e 'do shell script "chmod -R 755 /Private/tmp/Install/*.kext" with administrator privileges'
+osascript -e 'do shell script "chown -R root:wheel /Private/tmp/Install/*.plugin" with administrator privileges'
+osascript -e 'do shell script "chmod -R 755 /Private/tmp/Install/*.plugin" with administrator privileges'
+osascript -e 'do shell script "chown -R root:wheel /Private/tmp/Install/*.bundle" with administrator privileges'
+osascript -e 'do shell script "chmod -R 755 /Private/tmp/Install/*.bundle" with administrator privileges'
+fi
+
+osascript <<EOD
+  tell application "Kext-Drop"
+      activate
+  end tell
+EOD
+
+echo "Verifying SIP"
+Sleep 2
+function vertifySIP {
+	echo -n "Verifying SIP..."
+	if [[ "$(csrutil status | grep "System Integrity Protection status: disabled." | wc -l)" == "       0" && "$(csrutil status | grep "Filesystem Protections: disabled" | wc -l)" == "       0" ]]; then
+		echo ""
+osascript -e 'tell app "System Events" to display dialog "SIP is enabled on this system. 
+Please disable the SIP from Bootloader or boot into Recovery HD or an Installer USB drive, open a new Terminal Window, and enter csrutil disable. When completed, reboot back into your standard macOS install, and run this Program again." with icon file "System:Library:CoreServices:CoreTypes.bundle:Contents:Resources:FileVaultIcon.icns" buttons {"OK"} default button 1 with title "Kext-Droplet-macOS (Error SIP Enable)"'
+
+osascript -e 'display notification "Program closing" sound name "default" with title "'"$apptitle"'" subtitle "SIP is Enable"'
+echo "QUITAPP"
+exit 0
+		return 1
+	fi
+	return 0		
+		
+}
+
+vertifySIP
+
+Sleep 2
+if [ $ThisMajorVersion == $CatalinaMajorVersion ]
+then
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+echo "macOS Catalina $macOSVersion"
+# Backup_For_Kext_Drop in /S/L/E
+echo "Verifying Kexts for /System/Library/Extensions/:"
+if [ -e "${3}/System/Library/Extensions/${file##*/}"  ]; then
+echo "Find ${file##*/} ➣ Save for (SLE)"
+for file in "${TempDir}"/*; 
+do
+Sleep 2
+rsync -ab "${3}/System/Library/Extensions/${file##*/}" "$BUSLEDir";
+Sleep 1
+done
+fi
+mv "$BUSLEDir" "$BUKextDrop"`date "+%Y%m%d_%H%M%S"`
+Sleep 2
+echo "Put the Disk in R/W for Catalina"
+osascript -e 'do shell script "mount -uw /" with administrator privileges'
+Sleep 1
+killall Finder
+Sleep 2
+# Install Files
+osascript -e 'do shell script "cp -R /Private/tmp/Install/*.kext /System/Library/Extensions/" with administrator privileges'
+osascript -e 'do shell script "cp -R /Private/tmp/Install/*.plugin /System/Library/Extensions/" with administrator privileges'
+osascript -e 'do shell script "cp -R /Private/tmp/Install/*.bundle /System/Library/Extensions/" with administrator privileges'
+echo "Kext Cache repair! Please wait. ."
+Sleep 1
+osascript -e 'do shell script "sudo touch /System/Library/Extensions/" with administrator privileges'
+osascript -e 'do shell script "sudo kextcache -u /" with administrator privileges'
+Sleep 1
+osascript <<EOD
+  tell application "loginwindow"
+	«event aevtrrst»
+  end tell
+EOD
+Sleep 1
+killall "Kext-Drop"
+Sleep 1
+echo "QUITAPP"
+fi
+fi
+
+echo " "
+#  user select /S/L/E
+if [ "$action" == "System Library Extensions" ] ; then
+
+read -r -d '' applescriptCode <<'EOF'
+  set theAction to button returned of (display dialog "
+Welcome Kext Drop Patcher
+" with icon note buttons {"Quit", "Kext Drop Patcher"} cancel button "Quit" default button {"Kext Drop Patcher"})
+
+if theAction = "Kext Drop Patcher" then
+	display dialog "
+	
+To using this program! 
+Gatekeeper must be disable
+SIP security must be disable
+==================
+config.plist: NVRAM ⬇︎ 
+7C436110-AB2A-4BBB-A880-FE41995C9F82: csr-active-config ➤ 03080000
+
+" with icon note
+	
+	activate me
+	
+	set Volumepath to paragraphs of (do shell script "ls /Volumes")
+	set Diskpath to choose from list Volumepath with prompt "
+To be able to continue, select the volume
+that you want to create the snapshot
+Then press the OK button" OK button name "OK" with multiple selections allowed
+	if Diskpath is false then
+		display dialog "Quit Installer " with icon 0 buttons {"EXIT"} default button {"EXIT"}
+		return
+		
+		return (POSIX path of Diskpath)
+	end if
+	try
+		
+		--If Continue
+		display dialog "Select  the APFS Volume " & Diskpath & " on the list to mount the drive as RW" with icon note
+		set alldisks to paragraphs of (do shell script "diskutil list")
+		set nonbootnumber to (count of alldisks)
+		try
+                        # Credit: Portion Base on jackluke work
+			set alldisks to items 2 thru nonbootnumber of alldisks
+			activate
+			set your_selected_device_id to (choose from list alldisks with prompt "Choose APFS Volume " & Diskpath & " then click OK to proceed")
+			repeat with the_Item in your_selected_device_id
+				set the_ID to (do shell script "diskutil list | grep -m 1" & space & quoted form of the_Item & space & "| grep -o 'disk[0-9][a-z][0-9]*'")
+				set Check to false
+				set tName to your_selected_device_id as text
+				if (tName contains "10:" or tName contains "9:" or tName contains "8:" or tName contains "7:" or tName contains "6:" or tName contains "5:" or tName contains "4:" or tName contains "3:" or tName contains "2:" or tName contains "1:" or tName contains "0:") and tName contains "APFS" and (tName does not contain "VM" and tName does not contain "- D" and tName does not contain "Update" and tName does not contain "Preboot" and tName does not contain "Recovery" and tName does not contain "Container" and tName does not contain "Snapshot") then
+					set Check to true
+				end if
+				if Check is true then
+					set progress total steps to 5
+					set progress additional description to "Analyse Progression"
+					delay 2
+					set progress completed steps to 1
+					
+					set progress additional description to "Analyse Progression"
+					delay 2
+					set progress completed steps to 2
+					
+					set progress additional description to "Analyse " & Diskpath & ""
+					delay 2
+					set progress completed steps to 3
+					
+					try
+						do shell script "mount -o nobrowse -t apfs /dev/" & the_ID & " /System/Volumes/Update/mnt1" with administrator privileges
+						delay 1
+						
+						## Set use_terminal to true to run the script in a terminal
+						set use_terminal to true
+						## Set exit_terminal to true to leave the terminal session open after script runs
+						set exit_terminal to true
+						## Set log_file to a file path to have the output captured
+						set file_list to ""
+						set file_list to file_list
+						delay 2
+						set the_command to the_command & " " & file_list
+						try
+							if log_file is not missing value then
+								set the_command to the_command & " | tee -a " & log_file
+							end if
+						end try
+						try
+							set use_terminal to false
+						end try
+						if not use_terminal then
+							delay 2
+							
+							set progress additional description to "Install Files"
+							delay 2
+							set progress completed steps to 4
+							
+							set progress additional description to "Installation Snapshot"
+							delay 1
+							set progress completed steps to 5
+							set progress additional description to "
+Patching system
+Wait for it to be completed. . ."
+							
+						end if
+						
+						
+					end try
+					display dialog "Final step for the Snapshot " & Diskpath & "" buttons {"OK"} default button 1 with icon note giving up after 1
+					delay 1
+					
+				else
+					display dialog "You haven't selected any " & Diskpath & "" buttons {"Exit"} with icon note giving up after 5
+				end if
+				
+			end repeat
+		on error the error_message number the error_number
+			if the error_number is -128 or the error_number is -1708 then
+			else
+				display dialog "There are no selected " & Diskpath & " snapshots." buttons {"OK"} default button 1 with icon note giving up after 5
+			end if
+		end try
+	end try
+end if
+  
+EOF
+
+dialogText=$(osascript -e "$applescriptCode");
+osascript <<EOD
+  tell application "Kext-Drop"
+      activate
+  end tell
+EOD
+
+# Install Files
+for file in "${TempDir}"/*; 
+do
+Sleep 1
+echo User Drop "${file##*/}"
+Sleep 1
+done
+echo " "
+osascript -e 'do shell script "cp -R /Private/tmp/Install/.* /System/Volumes/Update/mnt1/System/Library/Extensions/" with administrator privileges'
+echo "====================================================="
+./Kext-Drop 2>&1 | tee $kextdroplog
+fi
+done

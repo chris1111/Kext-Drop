@@ -1,0 +1,193 @@
+#!/bin/sh
+# Patched-System
+# Copyright (c) 2025, chris1111. All Right Reserved
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# Vars
+
+echo "======================================================"
+echo "Patched-System Starting"
+echo "====================================================="
+
+
+###### Patched-System ######
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 11.* ]]; then
+printf -- '%s\n' "This Mac is running macOS BigSur $macOSVersion" 
+# Kext Cache repair
+echo "Kext Cache repair! Please wait. ."
+sudo chown -R root:wheel /System/Volumes/Update/mnt1/System/Library/Extensions
+sudo chmod -R 755 /System/Volumes/Update/mnt1/System/Library/Extensions
+sudo kmutil install --volume-root /System/Volumes/Update/mnt1/ --update-all
+sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
+Sleep 1
+# Unmount Snapshot
+echo "Done! "
+diskutil unmount /System/Volumes/Update/mnt1
+echo "Unmount the root volume, operation complete"
+Sleep 1
+echo "Done"
+echo "======================================================"
+echo "Patched-System Completed Done!"
+echo "====================================================="
+
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 12.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Monterey $macOSVersion"
+# Kext Cache repair
+echo "Kext Cache repair! Please wait. ."
+sudo chown -R root:wheel /System/Volumes/Update/mnt1/System/Library/Extensions
+sudo chmod -R 755 /System/Volumes/Update/mnt1/System/Library/Extensions
+sudo kmutil install --volume-root /System/Volumes/Update/mnt1/ --update-all
+sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
+Sleep 1
+# Unmount Snapshot
+echo "Done! "
+diskutil unmount /System/Volumes/Update/mnt1
+echo "Unmount the root volume, operation complete"
+Sleep 1
+echo "Done"
+echo "======================================================"
+echo "Patched-System Completed Done!"
+echo "====================================================="
+
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 13.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Ventura $macOSVersion" 
+file="/Library/Developer/KDKs/*.kdk"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ Sleep 2
+ echo "Merge Existing KDK"
+ # Merge KDKs
+ sudo rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions
+ Sleep 2
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ sudo kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk
+ sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
+ echo "Done! "
+ diskutil unmount /System/Volumes/Update/mnt1
+ diskutil unmount /Volumes/KDK
+ echo "Unmount the root volume, operation complete"
+fi
+Sleep 1
+echo "Done"
+Sleep 1
+echo "======================================================"
+echo "Patched-System Completed Done!"
+echo "====================================================="
+
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 14.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Sonoma $macOSVersion" 
+file="/Library/Developer/KDKs/*.kdk"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ Sleep 2
+ echo "Merge Existing KDK"
+ # Merge KDKs
+ sudo rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions
+ Sleep 2
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ sudo kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk
+ sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
+ echo "Done! "
+ diskutil unmount /System/Volumes/Update/mnt1
+ diskutil unmount /Volumes/KDK
+ echo "Unmount the root volume, operation complete"
+fi
+Sleep 1
+echo "Done"
+Sleep 1
+echo "======================================================"
+echo "Patched-System Completed Done!"
+echo "====================================================="
+
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 15.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Sequoia $macOSVersion" 
+file="/Library/Developer/KDKs/*.kdk"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ Sleep 2
+ echo "Merge Existing KDK"
+ # Merge KDKs
+ sudo rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions
+ Sleep 2
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ sudo kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk
+ sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
+ echo "Done! "
+ diskutil unmount /System/Volumes/Update/mnt1
+ diskutil unmount /Volumes/KDK
+ echo "Unmount the root volume, operation complete"
+fi
+Sleep 1
+echo "Done"
+Sleep 1
+echo "======================================================"
+echo "Patched-System Completed Done!"
+echo "====================================================="
+
+fi
+
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+if [[ $macOSVersion = 26.* ]]; then
+printf -- '%s\n' "This Mac is running macOS Tahoe $macOSVersion" 
+file="/Library/Developer/KDKs/*.kdk"
+if [ -d $file ]; then
+ echo "KDKs is installed"
+ Sleep 2
+ echo "Merge Existing KDK"
+ # Merge KDKs
+ sudo rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions
+ Sleep 2
+ # Kext Cache repair
+ echo "Kext Cache repair! Please wait. ."
+ sudo kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk
+ sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
+ echo "Done! "
+ diskutil unmount /System/Volumes/Update/mnt1
+ diskutil unmount /Volumes/KDK
+ echo "Unmount the root volume, operation complete"
+fi
+Sleep 1
+echo "Done"
+Sleep 1
+echo "======================================================"
+echo "Patched-System Completed Done!"
+echo "====================================================="
+
+fi
+
+###### End of Patched-System ######
+
+Sleep 1
+echo "Restart"
+Sleep 2
+osascript <<EOD
+  tell application "loginwindow"
+	«event aevtrrst»
+  end tell
+EOD
+
