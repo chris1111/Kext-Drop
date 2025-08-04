@@ -1,0 +1,371 @@
+<!doctype html>
+<!-- Created with GFM2HTML: https://github.com/rvagg/gfm2html -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="created-with" content="https://github.com/rvagg/gfm2html">
+    <body style="background-color:#2d313a;">
+    <style type="text/css">
+/* most of normalize.css */
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block;}[hidden],template{display:none;}html{font-family:sans-serif;/*1*/-ms-text-size-adjust:100%;/*2*/-webkit-text-size-adjust:100%;/*2*/}body{margin:0;}a{background:transparent;}a:focus{outline:thindotted;}a:active,a:hover{outline:0;}h1{font-size:2em;margin:0.67em0;}abbr[title]{border-bottom:1pxdotted;}b,strong{font-weight:bold;}dfn{font-style:italic;}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em;}pre{white-space:pre-wrap;}q{quotes:"\201C""\201D""\2018""\2019";}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-0.5em;}sub{bottom:-0.25em;}img{border:0;}svg:not(:root){overflow:hidden;}table{border-collapse:collapse;border-spacing:0;}
+
+html {
+  font: 14px 'Helvetica Neue', Helvetica, arial, freesans, clean, sans-serif;
+}
+
+.container {
+  line-height: 1.6;
+  color: #333;
+  background: #eee;
+  border-radius: 3px;
+  padding: 3px;
+  width: 790px;
+  margin: 10px auto;
+}
+
+.body-content {
+  background-color: #fff;
+  border: 1px solid #CACACA;
+  padding: 30px;
+}
+
+.body-content > *:first-child {
+  margin-top: 0 !important;
+}
+
+a, a:visited {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+  .markdown-body h1
+, .markdown-body h2
+, .markdown-body h3
+, .markdown-body h4
+, .markdown-body h5
+, .markdown-body h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #000;
+  border-bottom: 1px solid #ddd;
+}
+
+h2 {
+  font-size: 2em;
+  border-bottom: 1px solid #eee;
+  color: #000;
+}
+
+img {
+  max-width: 100%;
+}
+
+hr {
+  background: transparent url("/img/hr.png") repeat-x 0 0;
+  border: 0 none;
+  color: #ccc;
+  height: 4px;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+th {
+  font-weight: bold;
+}
+
+blockquote {
+  border-left: 4px solid #ddd;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote > :last-child, blockquote > :first-child {
+  margin-bottom: 0px;
+}
+
+pre, code {
+  font-size: 13px;
+  font-family: 'UbuntuMono', monospace;
+  white-space: nowrap;
+  margin: 0 2px;
+  padding: 0px 5px;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre > code {
+  white-space: pre;
+}
+
+pre {
+  overflow-x: auto;
+  white-space: pre;
+  padding: 10px;
+  line-height: 150%;
+  background-color: #f8f8f8;
+  border-color: #ccc;
+}
+
+pre code, pre tt {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  border: none;
+}
+
+  .highlight .c
+, .highlight .cm
+, .highlight .cp
+, .highlight .c1 {
+    color:#999988;
+    font-style:italic;
+}
+
+.highlight .err {
+  color:#a61717;
+  background-color:#e3d2d2
+}
+
+  .highlight .o
+, .highlight .gs
+, .highlight .kc
+, .highlight .kd
+, .highlight .kn
+, .highlight .kp
+, .highlight .kr {
+    font-weight:bold
+}
+
+.highlight .cs {
+  color:#999999;
+  font-weight:bold;
+  font-style:italic
+}
+
+.highlight .gd {
+  color:#000000;
+  background-color:#ffdddd
+}
+
+.highlight .gd .x {
+  color:#000000;
+  background-color:#ffaaaa
+}
+
+.highlight .ge {
+  font-style:italic
+}
+
+  .highlight .gr
+, .highlight .gt {
+    color:#aa0000
+}
+
+  .highlight .gh
+, .highlight .bp {
+    color:#999999
+}
+
+.highlight .gi {
+  color:#000000;
+  background-color:#ddffdd
+}
+
+.highlight .gi .x {
+  color:#000000;
+  background-color:#aaffaa
+}
+
+.highlight .go {
+  color:#888888
+}
+
+  .highlight .gp
+, .highlight .nn {
+    color:#555555
+}
+
+
+.highlight .gu {
+  color:#800080;
+  font-weight:bold
+}
+
+
+.highlight .kt {
+  color:#445588;
+  font-weight:bold
+}
+
+  .highlight .m
+, .highlight .mf
+, .highlight .mh
+, .highlight .mi
+, .highlight .mo
+, .highlight .il {
+    color:#009999
+}
+
+  .highlight .s
+, .highlight .sb
+, .highlight .sc
+, .highlight .sd
+, .highlight .s2
+, .highlight .se
+, .highlight .sh
+, .highlight .si
+, .highlight .sx
+, .highlight .s1 {
+    color:#d14
+}
+
+.highlight .n {
+  color:#333333
+}
+
+  .highlight .na
+, .highlight .no
+, .highlight .nv
+, .highlight .vc
+, .highlight .vg
+, .highlight .vi
+, .highlight .nb {
+    color:#0086B3
+}
+
+.highlight .nc {
+  color:#445588;
+  font-weight:bold
+}
+
+.highlight .ni {
+  color:#800080
+}
+
+  .highlight .ne
+, .highlight .nf {
+    color:#990000;
+    font-weight:bold
+}
+
+.highlight .nt {
+  color:#000080
+}
+
+.highlight .ow {
+  font-weight:bold
+}
+
+.highlight .w {
+  color:#bbbbbb
+}
+
+.highlight .sr {
+  color:#009926
+}
+
+.highlight .ss {
+  color:#990073
+}
+
+.highlight .gc {
+  color:#999;
+  background-color:#EAF2F5
+}
+
+@media print {
+  .container {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .body-content {
+    border: none;
+  }
+}
+</style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="body-content"><h1 id="kext-drop-an-easy-kexts-installer-in-macos">Kext Drop an easy kexts installer in macOS</h1>
+<p><a href="https://github.com/chris1111/Kext-Drop/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></p>
+<h4 id="kext-drop-is-build-from-xcode-16-on-my-system-macos-sequoia-15-6">Kext Drop Is build from Xcode 16 on my system macOS Sequoia 15.6</h4>
+<ul>
+<li><p>Credit: <a href="https://github.com/sveinbjornt/Platypus">Platypus</a> - <a href="https://developer.apple.com/documentation/apple-silicon/debugging-a-custom-kernel-extension">Apple KDK
+</a></p>
+</li>
+<li><p>Utility for Old Intel mac or Hackintosh</p>
+</li>
+</ul>
+<p>View Usage Video ➤ <a href="https://github.com/chris1111/Kext-Drop/blob/main/Usage-Video.md">Usage Video</a></p>
+<p>Open ➥ <a href="https://github.com/chris1111/Kext-Drop/discussions">discussions</a> ➥ <a href="https://github.com/chris1111/Kext-Drop/issues">issues
+</a></p>
+<h4 id="working-">Working ⬇︎</h4>
+<ul>
+<li>Work from macOS Catalina 10.15 to macOS Tahoe 26 in both usage modes /S/L/E and /L/E</li>
+<li>The program download and install KDK automaticly.<h4 id="to-using-this-program-">To using this program:</h4>
+</li>
+<li>Gatekeeper must be disable</li>
+<li>SIP security must be disable</li>
+<li>You need a working ethernet connection on /S/L/E for Ventura and later because of the KDKs download. Snapshot disk requires Disable AMFI, NVRAM:boot-args: &gt; amfi=0x80 or AMFIPass.kext without this boot args.</li>
+<li>config.plist: NVRAM:
+7C436110-AB2A-4BBB-A880-FE41995C9F82: CSr:active-config &gt; 03080000</li>
+</ul>
+<h4 id="exemple-installed-applehda-kext-on-macos-tahoe-26-to-make-audio-working-">Exemple: Installed AppleHDA.kext on macOS Tahoe 26 to make audio working.</h4>
+<ul>
+<li>You need AppleALC. kext Lilu kext and your layout ID in OpenCore config.plist</li>
+<li>Use Kext Drop to install AppleHDA.kext in /System/Library/Extensions</li>
+</ul>
+<p><img src="https://github.com/chris1111/Kext-Drop/blob/main/Source/Pics/Screenshot-1.png?raw=true" alt="Github Project"></p>
+<p><img src="https://github.com/chris1111/Kext-Drop/blob/main/Source/Pics/Screenshot-2.png?raw=true" alt="Github Project"></p>
+
+<p><img src="https://github.com/chris1111/Kext-Drop/blob/main/Source/Pics/Screenshot.png?raw=true" alt="Github Project"></p>
+<h3 id="use-this-utility-correctly-">Use this utility correctly: ⬇︎</h3>
+<h3 id="if-you-have-any-snapshot-disk-install-from-other-utility-on-your-system-you-have-to-use-the-option-revert-patch-before-then-reboot-and-use-option-kext-drop">If you have any snapshot disk install from other utility on your system you have to use the Option <code>Revert Patch</code> before; then reboot and use Option <code>Kext-Drop</code></h5>
+<h3 id="even-if-you-have-any-kdk-install-from-other-utility-on-your-system-you-have-to-remove-it-in-library-developer-kdks">Even if you have any KDK install from other utility on your system, you have to remove it in  <code>/library/Developer/KDKs</code></h5>
+<p><img src="https://github.com/chris1111/Kext-Drop/blob/main/Source/Pics/Screenshot-Revert.png?raw=true" alt="Github Project"></p>
+<h3 id="if-a-boot-problem-occurs-after-using-this-utility-you-must-take-responsibility-for-it-">If a boot problem occurs after using this utility, you must take responsibility for it.</h3>
+<p> Download ➦ <a href="https://github.com/chris1111/Kext-Drop/releases/tag/V1">Release Kext Drop</a></p>
+<p><a href="https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/script">Main scipt</a> -- <a href="https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/Kext-Drop">Patch Helper script</a> - <a href="https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RepatchSystem.app/Contents/Resources/Scripts/Patched-System">Re Patched-System script</a></p>
+</div>
+    </div>
+  </body>
+</html>
