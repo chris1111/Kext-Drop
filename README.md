@@ -1,6 +1,5 @@
 # Kext Drop an easy kexts installer in macOS
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/chris1111/Kext-Drop/blob/main/LICENSE)
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/chris1111/Kext-Drop/blob/main/LICENSE) [![pages-build-deployment](https://github.com/chris1111/Kext-Drop/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/chris1111/Kext-Drop/actions/workflows/pages/pages-build-deployment)
 #### Kext Drop Is build from Xcode 16 on my system macOS Sequoia 15.6
 - Credit: [Platypus](https://github.com/sveinbjornt/Platypus) - [Apple KDK
 ](https://developer.apple.com/documentation/apple-silicon/debugging-a-custom-kernel-extension)
