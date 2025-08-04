@@ -9,6 +9,8 @@
   
 View Usage Video ➤ [Usage Video](https://github.com/chris1111/Kext-Drop/blob/main/Usage-Video.md)
 
+Open ➥ [discussions](https://github.com/chris1111/Kext-Drop/discussions) ➥ [issues
+](https://github.com/chris1111/Kext-Drop/issues)
 #### Working ⬇︎
 - Work from macOS Catalina 10.15 to macOS Tahoe 26 in both usage modes /S/L/E and /L/E
 - The program download and install KDK automaticly.
