@@ -8,8 +8,14 @@
   
 View Usage Video ➤ [Usage Video](https://github.com/chris1111/Kext-Drop/blob/main/Usage-Video.md)
 
+Download ➦ [Release Kext Drop](https://github.com/chris1111/Kext-Drop/releases/tag/V1)
+
 Open ➥ [discussions](https://github.com/chris1111/Kext-Drop/discussions) ➥ [issues
 ](https://github.com/chris1111/Kext-Drop/issues)
+
+###### Source Script ➤ [Main scipt](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/script) -- [Patch Helper script](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/Kext-Drop) -- [Re Patched-System script](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RepatchSystem.app/Contents/Resources/Scripts/Patched-System) -- [main.scpt RepatchSystem](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RepatchSystem.app/Contents/Resources/Scripts/main.scpt) -- [main.scpt RevertSnapshot](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RevertSnapshot.app/Contents/Resources/Scripts/main.scpt)
+
+
 #### Working ⬇︎
 - Work from macOS Catalina 10.15 to macOS Tahoe 26 in both usage modes /S/L/E and /L/E
 - The program download and install KDK automaticly.
@@ -36,9 +42,3 @@ Open ➥ [discussions](https://github.com/chris1111/Kext-Drop/discussions) ➥ [
 <img src="Source/Pics/Screenshot-Revert.png" alt="Github Project" style="width:50%;">
 
 ### If a boot problem occurs after using this utility, you must take responsibility for it.
-
- Download ➦ [Release Kext Drop](https://github.com/chris1111/Kext-Drop/releases/tag/V1)
-
-[Main scipt](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/script) -- [Patch Helper script](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/Kext-Drop) -- [Re Patched-System script](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RepatchSystem.app/Contents/Resources/Scripts/Patched-System) 
-
-[main.scpt RepatchSystem](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RepatchSystem.app/Contents/Resources/Scripts/main.scpt) -- [main.scpt RevertSnapshot](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RevertSnapshot.app/Contents/Resources/Scripts/main.scpt)
