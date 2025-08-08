@@ -1,5 +1,5 @@
 # Kext Drop an easy kexts installer in macOS
-<img src="Source/Pics/Kext-Drop.png" alt="Github Project" style="width:100%;">
+<img src="Source/Pics/Kext-Drop.png" alt="Github Project" style="width:25%;">
 
 [![License: MIT](https://github.com/chris1111/Kext-Drop/blob/main/Source/Pics/MIT.svg)](https://github.com/chris1111/Kext-Drop/blob/main/LICENSE) [![pages-build-deployment](https://github.com/chris1111/Kext-Drop/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/chris1111/Kext-Drop/actions/workflows/pages/pages-build-deployment)
 #### Kext Drop Is build from Xcode 16 on my system macOS Sequoia 15.6
