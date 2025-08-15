@@ -81,7 +81,6 @@ if [ -d $file ]; then
  sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
  echo "Done! "
  diskutil unmount /System/Volumes/Update/mnt1
- diskutil unmount /Volumes/KDK
  echo "Unmount the root volume, operation complete"
 fi
 Sleep 1
@@ -110,7 +109,6 @@ if [ -d $file ]; then
  sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
  echo "Done! "
  diskutil unmount /System/Volumes/Update/mnt1
- diskutil unmount /Volumes/KDK
  echo "Unmount the root volume, operation complete"
 fi
 Sleep 1
@@ -139,7 +137,6 @@ if [ -d $file ]; then
  sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
  echo "Done! "
  diskutil unmount /System/Volumes/Update/mnt1
- diskutil unmount /Volumes/KDK
  echo "Unmount the root volume, operation complete"
 fi
 Sleep 1
@@ -168,7 +165,6 @@ if [ -d $file ]; then
  sudo bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot
  echo "Done! "
  diskutil unmount /System/Volumes/Update/mnt1
- diskutil unmount /Volumes/KDK
  echo "Unmount the root volume, operation complete"
 fi
 Sleep 1

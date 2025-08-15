@@ -263,9 +263,9 @@ fi
  Sleep 2
 else
  echo "KDKs is is not installed"
- echo "Using KDK 25A5279m"
+ echo "Using KDK 25A5338b"
  echo "Download KDKs by CURL silently. Please wait. ."
- curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_25A5279m.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
+ curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_25A5338b.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
  echo "Done! "
  Sleep 2
  echo "Attach Kernel_Debug_Kit"
