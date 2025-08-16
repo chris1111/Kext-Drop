@@ -7,12 +7,14 @@
 ](https://developer.apple.com/documentation/apple-silicon/debugging-a-custom-kernel-extension) - [(Tester djams)](https://github.com/djams2904)
 
 - Utility for Old Intel mac or Hackintosh
-  
+
+- Please gives Feedback here ➦ 
+
 View Usage Video ➤ [Usage Video](https://github.com/chris1111/Kext-Drop/blob/main/Usage-Video.md)
 
 Download ➦ [Release Kext Drop](https://github.com/chris1111/Kext-Drop/releases/tag/V1)
 
-Open ➥ [discussions](https://github.com/chris1111/Kext-Drop/discussions) ➥ [issues
+Please gives Feedback here ➥ [Open Discussions](https://github.com/chris1111/Kext-Drop/discussions/) ➥ [issues
 ](https://github.com/chris1111/Kext-Drop/issues)
 
 ###### Source Script ➤ [Main scipt](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/script) -- [Patch Helper script](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/Kext-Drop.app/Contents/Resources/Kext-Drop) -- [Re Patched-System script](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RepatchSystem.app/Contents/Resources/Scripts/Patched-System) -- [main.scpt RepatchSystem](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RepatchSystem.app/Contents/Resources/Scripts/main.scpt) -- [main.scpt RevertSnapshot](https://github.com/chris1111/Kext-Drop/blob/main/Source/Contents/Resources/Installer/RevertSnapshot.app/Contents/Resources/Scripts/main.scpt)
