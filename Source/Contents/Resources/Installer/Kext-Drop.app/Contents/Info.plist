@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>24G84</string>
+	<string>25A354</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDocumentTypes</key>
@@ -27,11 +27,13 @@
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.chris1111.Kext-Drop</string>
+	<string>com.chris1111.KextDrop</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>Kext-Drop</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -54,19 +56,19 @@
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>24A330</string>
+	<string>24F74</string>
 	<key>DTPlatformName</key>
 	<string>macosx</string>
 	<key>DTPlatformVersion</key>
-	<string>15.0</string>
+	<string>15.5</string>
 	<key>DTSDKBuild</key>
-	<string>24A330</string>
+	<string>24F74</string>
 	<key>DTSDKName</key>
-	<string>macosx15.0</string>
+	<string>macosx15.5</string>
 	<key>DTXcode</key>
-	<string>1600</string>
+	<string>1640</string>
 	<key>DTXcodeBuild</key>
-	<string>16A242</string>
+	<string>16F6</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.15</string>
 	<key>LSUIElement</key>
