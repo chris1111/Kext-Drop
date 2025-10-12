@@ -75,24 +75,18 @@ if [[ $macOSVersion = 13.* ]]; then
 printf -- '%s\n' "This Mac is running macOS Ventura $macOSVersion" 
 file="/Library/Developer/KDKs"
 if [ -d $file ]; then
- echo "KDKs is installed"
- # Kext Cache repair
- echo "Kext Cache repair! Please wait. ."
- Sleep 2
- # Merge KDKs
- osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+echo "KDKs is installed on your System!"
+ Sleep 3
+ diskutil unmount /System/Volumes/Update/mnt1
+ echo "Kext-Drop will Quit in 3 sec. . . Your not following the guide correctly?"
  Sleep 1
- osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
- osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ osascript -e 'display notification "Kext-Drop will Quit" with title "'"$apptitle"'" subtitle "KDKs is installed on your System!"sound name "default"'
+ Sleep 3
+ open -a Safari "https://github.com/chris1111/Kext-Drop?tab=readme-ov-file#use-this-utility-correctly-%EF%B8%8E"
  Sleep 1
- # Unmount Snapshot
+ killall "Kext-Drop"
  Sleep 1
-if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
-    echo "KDK merge successful"
-    diskutil unmount /System/Volumes/Update/mnt1
-    echo "Unmount the root volume, operation complete"
-fi
- Sleep 2
+ echo "QUITAPP"
 else
  echo "KDKs is is not installed"
  echo "Using KDK 22H625"
@@ -131,24 +125,18 @@ if [[ $macOSVersion = 14.* ]]; then
 printf -- '%s\n' "This Mac is running macOS Sonoma $macOSVersion" 
 file="/Library/Developer/KDKs"
 if [ -d $file ]; then
- echo "KDKs is installed"
- # Kext Cache repair
- echo "Kext Cache repair! Please wait. ."
- Sleep 2
- # Merge KDKs
- osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ echo "KDKs is installed on your System!"
+ Sleep 3
+ diskutil unmount /System/Volumes/Update/mnt1
+ echo "Kext-Drop will Quit in 3 sec. . . Your not following the guide correctly?"
  Sleep 1
- osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
- osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ osascript -e 'display notification "Kext-Drop will Quit" with title "'"$apptitle"'" subtitle "KDKs is installed on your System!"sound name "default"'
+ Sleep 3
+ open -a Safari "https://github.com/chris1111/Kext-Drop?tab=readme-ov-file#use-this-utility-correctly-%EF%B8%8E"
  Sleep 1
- # Unmount Snapshot
+ killall "Kext-Drop"
  Sleep 1
-if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
-    echo "KDK merge successful"
-    diskutil unmount /System/Volumes/Update/mnt1
-    echo "Unmount the root volume, operation complete"
-fi
- Sleep 2
+ echo "QUITAPP"
 else
  echo "KDKs is is not installed"
  echo "Using KDK 23H626"
@@ -187,24 +175,18 @@ if [[ $macOSVersion = 15.* ]]; then
 printf -- '%s\n' "This Mac is running macOS Sequoia $macOSVersion" 
 file="/Library/Developer/KDKs"
 if [ -d $file ]; then
- echo "KDKs is installed"
- # Kext Cache repair
- echo "Kext Cache repair! Please wait. ."
- Sleep 2
- # Merge KDKs
- osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ echo "KDKs is installed on your System!"
+ Sleep 3
+ diskutil unmount /System/Volumes/Update/mnt1
+ echo "Kext-Drop will Quit in 3 sec. . . Your not following the guide correctly?"
  Sleep 1
- osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
- osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ osascript -e 'display notification "Kext-Drop will Quit" with title "'"$apptitle"'" subtitle "KDKs is installed on your System!"sound name "default"'
+ Sleep 3
+ open -a Safari "https://github.com/chris1111/Kext-Drop?tab=readme-ov-file#use-this-utility-correctly-%EF%B8%8E"
  Sleep 1
- # Unmount Snapshot
+ killall "Kext-Drop"
  Sleep 1
-if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
-    echo "KDK merge successful"
-    diskutil unmount /System/Volumes/Update/mnt1
-    echo "Unmount the root volume, operation complete"
-fi
- Sleep 2
+ echo "QUITAPP"
 else
  echo "KDKs is is not installed"
  echo "Using KDK 24F74"
@@ -243,24 +225,18 @@ if [[ $macOSVersion = 26.* ]]; then
 printf -- '%s\n' "This Mac is running macOS Tahoe $macOSVersion" 
 file="/Library/Developer/KDKs"
 if [ -d $file ]; then
- echo "KDKs is installed"
- # Kext Cache repair
- echo "Kext Cache repair! Please wait. ."
- Sleep 2
- # Merge KDKs
- osascript -e 'do shell script "rsync -r -i -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions" with administrator privileges'
+ echo "KDKs is installed on your System!"
+ Sleep 3
+ diskutil unmount /System/Volumes/Update/mnt1
+ echo "Kext-Drop will Quit in 3 sec. . . Your not following the guide correctly?"
  Sleep 1
- osascript -e 'do shell script "kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk" with administrator privileges'
- osascript -e 'do shell script "bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+ osascript -e 'display notification "Kext-Drop will Quit" with title "'"$apptitle"'" subtitle "KDKs is installed on your System!"sound name "default"'
+ Sleep 3
+ open -a Safari "https://github.com/chris1111/Kext-Drop?tab=readme-ov-file#use-this-utility-correctly-%EF%B8%8E"
  Sleep 1
- # Unmount Snapshot
+ killall "Kext-Drop"
  Sleep 1
-if [ -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
-    echo "KDK merge successful"
-    diskutil unmount /System/Volumes/Update/mnt1
-    echo "Unmount the root volume, operation complete"
-fi
- Sleep 2
+ echo "QUITAPP"
 else
  echo "KDKs is is not installed"
  echo "Using KDK 25B5057f"

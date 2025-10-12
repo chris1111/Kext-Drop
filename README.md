@@ -41,7 +41,7 @@ Please gives Feedback here ➥ [Open Discussions](https://github.com/chris1111/K
 <img src="Source/Pics/Screenshot.png" alt="Github Project" style="width:60%;">
 
 ### Use this utility correctly: ⬇︎ 
-##### If you have any snapshot disk install from other utility on your system you have to use the Option `Revert Patch` before; then reboot and use Option `Kext-Drop`
+##### If you have any snapshot disk install from other utility on your system you have to use the Option `Revert Snapshot` before; then reboot and use Option `Kext-Drop`
 ##### Even if you have any KDK install from other utility on your system, you have to remove it in  ➤ `/library/Developer/KDKs`  
 <img src="Source/Pics/Screenshot-Revert.png" alt="Github Project" style="width:50%;">
 
