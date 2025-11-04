@@ -4,95 +4,67 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Resources/AppIcon.icns</key>
-		<data>
-		ptmugxBNEMXw4dsP+PF7OWtGoWo=
-		</data>
-		<key>Resources/AppSettings.plist</key>
-		<data>
-		7rSuYpzzoO+vuASSUQjttCmR3KA=
-		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		7ywb6ahtuMQ+BZGM024dCeo+zzs=
+		sIWVtT91Qs3zza78m23bcGT3DJg=
 		</data>
-		<key>Resources/Kext-Drop</key>
+		<key>Resources/Scripts/main.scpt</key>
 		<data>
-		sSMnGcTtju7aWDbiw1TQSQO4eYk=
+		3cSwuRHn9I5mhsXjn+bW3te8MeY=
 		</data>
-		<key>Resources/KextDrop.plist</key>
+		<key>Resources/applet.icns</key>
 		<data>
-		z0oe6DvpYcmCtbrFEpwAaVCOum8=
+		sINd6lbiqHD5dL8c6u79cFvVXhw=
 		</data>
-		<key>Resources/MainMenu.nib</key>
+		<key>Resources/applet.rsrc</key>
 		<data>
-		Rp9VmJ+WRv3xJmwkmOMz5D2dLKk=
-		</data>
-		<key>Resources/RevertSnapshot.plist</key>
-		<data>
-		M3rbB27zjjhWo01eLPd7jqS6jgQ=
-		</data>
-		<key>Resources/script</key>
-		<data>
-		zor3n53zkIPMwESyL8x4Ea49ZlU=
+		cMEgkOTOBT2zSPiYes9rHDW115c=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Resources/AppIcon.icns</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			a981uYfCoG8PAGzpUvNGzO1rwRlPnfDbbZCaEzkbr1M=
-			</data>
-		</dict>
-		<key>Resources/AppSettings.plist</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			uukYROumuh3hN01BbZmNmqjItLqFPy8h7w3qXwvrXlQ=
-			</data>
-		</dict>
 		<key>Resources/Assets.car</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			sIWVtT91Qs3zza78m23bcGT3DJg=
+			</data>
 			<key>hash2</key>
 			<data>
-			YdnHq06vENOFix49PALqAac4e5RadugXedBFgZsKh0M=
+			97oVe/ZdhJ/LqtIrzLVheNfTOmcw+ddj4Z84jXzIhT4=
 			</data>
 		</dict>
-		<key>Resources/Kext-Drop</key>
+		<key>Resources/Scripts/main.scpt</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			3cSwuRHn9I5mhsXjn+bW3te8MeY=
+			</data>
 			<key>hash2</key>
 			<data>
-			PF0k7OiLn7FmDuVWty2ZwyTBihiEd98yxKW6TSQoZYE=
+			jxdz3Wglo+Kde+8KF+A0ZLxyTOznnJBzS+6m8gqxh1U=
 			</data>
 		</dict>
-		<key>Resources/KextDrop.plist</key>
+		<key>Resources/applet.icns</key>
 		<dict>
+			<key>hash</key>
+			<data>
+			sINd6lbiqHD5dL8c6u79cFvVXhw=
+			</data>
 			<key>hash2</key>
 			<data>
-			LtBc3HLpjIoNkFwIKOX+ctFGfzNFZ08dk3u2LNUBD9E=
+			J7weZ6vlnv9r32tS5HFcyuPXl2StdDnfepLxAixlryk=
 			</data>
 		</dict>
-		<key>Resources/MainMenu.nib</key>
+		<key>Resources/applet.rsrc</key>
 		<dict>
-			<key>hash2</key>
+			<key>hash</key>
 			<data>
-			811fsF92yLqrkbUvMg9CvQNdT0z6p/ZB+lIPCB8jpTs=
+			cMEgkOTOBT2zSPiYes9rHDW115c=
 			</data>
-		</dict>
-		<key>Resources/RevertSnapshot.plist</key>
-		<dict>
 			<key>hash2</key>
 			<data>
-			vODTqxk7Md/3d9Onymqyjw332DahSXLS+vlGopYbW7E=
-			</data>
-		</dict>
-		<key>Resources/script</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			B2MZb/6ZbIUQUlTqFSJ0tSOOSxo8FmiXlYBoywt+HmE=
+			2JlauDRTV80FBPltpsxlIaNGiY3jTzP0tPtizVc6oEE=
 			</data>
 		</dict>
 	</dict>
