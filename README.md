@@ -8,8 +8,6 @@
 
 - Utility for Old Intel mac or Hackintosh
 
-- Please gives Feedback here ➦ 
-
 View Usage Video ➤ [Usage Video](https://github.com/chris1111/Kext-Drop/blob/main/Usage-Video.md)
 
 Download ➦ [Release Kext Drop](https://github.com/chris1111/Kext-Drop/releases/tag/V1)
