@@ -239,9 +239,9 @@ if [ -d $file ]; then
  echo "QUITAPP"
 else
  echo "KDKs is is not installed"
- echo "Using KDK 25C56"
+ echo "Using KDK 25D5087f"
  echo "Download KDKs by CURL silently. Please wait. ."
- curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_25C56.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
+ curl -L https://github.com/chris1111/Kernel_Debug_Kit/releases/download/Kernel_Debug_Kit/Kernel_Debug_Kit_25D5087f.dmg -s -o /Private/tmp/Kernel_Debug_Kit.dmg
  echo "Done! "
  Sleep 2
  echo "Attach Kernel_Debug_Kit"
