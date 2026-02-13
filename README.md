@@ -1,7 +1,5 @@
 # Kext Drop an easy kexts installer in macOS
 
-<img src="https://hitscounter.dev/api/hit?url=https://github.com/chris1111&label=VISITORS&icon=gift&color=%23198754&message=&style=for-the-badge&tz=US%2FEastern">
-
 <img src="Source/Pics/Kext-Drop.png" alt="Github Project" style="width:25%;">
 
 [![License: MIT](https://github.com/chris1111/Kext-Drop/blob/main/Source/Pics/MIT.svg)](https://github.com/chris1111/Kext-Drop/blob/main/LICENSE) [![pages-build-deployment](https://github.com/chris1111/Kext-Drop/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/chris1111/Kext-Drop/actions/workflows/pages/pages-build-deployment)
