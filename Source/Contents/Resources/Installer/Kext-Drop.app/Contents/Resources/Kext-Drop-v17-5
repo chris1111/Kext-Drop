@@ -1,0 +1,389 @@
+#!/bin/bash
+# Kext-Drop
+# Copyright (c) 2025, chris1111. All Right Reserved
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+# v17.5 Release - THE COMPLETE BEAST:
+#   macOS 11/12 : Cache repair only (original flow)
+#   macOS 13+   : KDKs already installed -> re-merge + rebuild
+#                 KDKs NOT installed -> download by exact build ->
+#                 SHA256 verify -> install -> merge -> rebuild -> bless
+#
+# Vars
+apptitle="Kext-Drop"
+version="17.5"
+KDK_TMP_DMG="/Private/tmp/Kernel_Debug_Kit.dmg"
+SNAPSHOT_MOUNT="/System/Volumes/Update/mnt1"
+DORTANIA_BASE="https://github.com/dortania/KdkSupportPkg/releases/download"
+LAOBAMAC_MANIFEST="https://raw.githubusercontent.com/laobamac/OCLP-Mod-API-Sources/main/KdkSupportPkg/manifest.json"
+LOG="/Private/tmp/Kext-Drop_Log.txt"
+
+# ============================================================
+# LOGGING
+# ============================================================
+rm -f "$LOG" 2>/dev/null
+if ! touch "$LOG" 2>/dev/null; then
+    LOG="/Private/tmp/Kext-Drop_Log_$$.txt"
+    touch "$LOG"
+fi
+exec > >(tee "$LOG") 2>&1
+
+echo "======================================================"
+echo "Kext-Drop Patcher Starting. - $( date )"
+echo "====================================================="
+
+# ============================================================
+# MACOS DETECTION
+# ============================================================
+macOSVersion=$(/usr/bin/sw_vers | grep "ProductVersion" | /usr/bin/awk '{ print $2 }')
+BuildVersion=$(/usr/bin/sw_vers -buildVersion)
+BuildMajor=${BuildVersion:0:2}
+
+echo "Detected: macOS $macOSVersion (Build $BuildVersion)"
+
+# ============================================================
+# macOS 11 : CACHE REPAIR (original flow)
+# ============================================================
+if [[ $macOSVersion = 11.* ]]; then
+    printf -- '%s\n' "This Mac is running macOS BigSur $macOSVersion"
+    sleep 2
+    echo "Kext Cache repair! Please wait. ."
+    osascript -e 'do shell script "chown -R root:wheel /System/Volumes/Update/mnt1/System/Library/Extensions; chmod -R 755 /System/Volumes/Update/mnt1/System/Library/Extensions; kmutil install --volume-root /System/Volumes/Update/mnt1/ --update-all; bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+    sleep 2
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+    mv "$LOG" "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+    open -R "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+    exit 0
+fi
+
+# ============================================================
+# macOS 12 : CACHE REPAIR (original flow)
+# ============================================================
+if [[ $macOSVersion = 12.* ]]; then
+    printf -- '%s\n' "This Mac is running macOS Monterey $macOSVersion"
+    sleep 2
+    echo "Kext Cache repair! Please wait. ."
+    osascript -e 'do shell script "chown -R root:wheel /System/Volumes/Update/mnt1/System/Library/Extensions; chmod -R 755 /System/Volumes/Update/mnt1/System/Library/Extensions; kmutil install --volume-root /System/Volumes/Update/mnt1/ --update-all; bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+    sleep 2
+    diskutil unmount /System/Volumes/Update/mnt1
+    echo "Unmount the root volume, operation complete"
+    mv "$LOG" "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+    open -R "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+    exit 0
+fi
+
+# ============================================================
+# macOS 13/14/15/26 : BANNERS
+# ============================================================
+if [[ $macOSVersion = 13.* ]]; then
+    printf -- '%s\n' "This Mac is running macOS Ventura $macOSVersion"
+fi
+
+if [[ $macOSVersion = 14.* ]]; then
+    printf -- '%s\n' "This Mac is running macOS Sonoma $macOSVersion"
+fi
+
+if [[ $macOSVersion = 15.* ]]; then
+    printf -- '%s\n' "This Mac is running macOS Sequoia $macOSVersion"
+fi
+
+if [[ $macOSVersion = 26.* ]]; then
+    printf -- '%s\n' "This Mac is running macOS Tahoe $macOSVersion"
+fi
+
+# ============================================================
+# macOS 13/14/15/26 : KDK FLOW
+# ============================================================
+if [[ $macOSVersion = 13.* ]] || [[ $macOSVersion = 14.* ]] || [[ $macOSVersion = 15.* ]] || [[ $macOSVersion = 26.* ]]; then
+
+    # ------------------------------------------------------------
+    # KDKs ALREADY INSTALLED CHECK
+    # ------------------------------------------------------------
+    file="/Library/Developer/KDKs"
+    if [ -d "$file" ]; then
+        echo "KDKs is installed on your System!"
+        osascript -e 'do shell script "rsync -r -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions; kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk; bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+        sleep 3
+        echo "======================================================"
+        echo "Kext-Drop Completed Done! - $( date )"
+        echo "====================================================="
+        mv "$LOG" "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+        sleep 1
+        open -R "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+        echo "Restart"
+        sleep 1
+        osascript <<EOD
+          tell application "loginwindow"
+            «event aevtrrst»
+          end tell
+EOD
+        sleep 1
+        echo "KDK merge successful"
+        diskutil unmount /System/Volumes/Update/mnt1
+        echo "Unmount the root volume, operation complete"
+        killall "Kext-Drop"
+        sleep 1
+        echo "QUITAPP"
+    else
+
+        echo "KDKs is not installed"
+        echo "Looking up the KDK for build $BuildVersion. Please wait. ."
+
+        # ------------------------------------------------------------
+        # KDK LOOKUP by exact build (laobamac manifest).
+        # Anchored match: "build": "<exact>" - no substring collisions.
+        # ------------------------------------------------------------
+        KDK_URL=""
+        KDK_SHA=""
+        T2_URL=""
+        MANIFEST="/Private/tmp/KDK_manifest.json"
+
+        curl -sfL --connect-timeout 20 --retry 1 "$LAOBAMAC_MANIFEST" -o "$MANIFEST" 2>/dev/null
+
+        if [ -s "$MANIFEST" ]; then
+            KDK_SHA=$(awk -v build="$BuildVersion" '
+                $0 ~ ("\"build\"[[:space:]]*:[[:space:]]*\"" build "\"") {
+                    inblock = 1
+                }
+                inblock && /"sha256sum"/ {
+                    sub(/.*"sha256sum"[[:space:]]*:[[:space:]]*"/, "")
+                    sub(/".*/, "")
+                    print
+                    exit
+                }
+            ' "$MANIFEST")
+
+            T2_URL=$(awk -v build="$BuildVersion" '
+                $0 ~ ("\"build\"[[:space:]]*:[[:space:]]*\"" build "\"") {
+                    inblock = 1
+                }
+                inblock && /"url"/ {
+                    sub(/.*"url"[[:space:]]*:[[:space:]]*"/, "")
+                    sub(/".*/, "")
+                    print
+                    exit
+                }
+            ' "$MANIFEST")
+
+            rm -f "$MANIFEST"
+
+            if [ -n "$KDK_SHA" ]; then
+                echo "Reference SHA256 obtained."
+            else
+                echo "Build not found in the laobamac manifest."
+            fi
+            if [ -n "$T2_URL" ]; then
+                echo "Tier 2 (laobamac): $T2_URL"
+            fi
+        else
+            echo "laobamac manifest unreachable - Tier 2 disabled."
+        fi
+
+        # Tier 1 URL (dortania - built from version + build)
+        T1_URL="${DORTANIA_BASE}/${BuildVersion}/Kernel_Debug_Kit_${macOSVersion}_build_${BuildVersion}.dmg"
+        T1_SHA_URL="${DORTANIA_BASE}/${BuildVersion}/SHA256SUM"
+        echo "Tier 1 (dortania): $T1_URL"
+
+        # ------------------------------------------------------------
+        # DOWNLOAD - 3 tiers
+        # ------------------------------------------------------------
+        echo ""
+        echo "Downloading the KDK (~950 MB, please be patient)..."
+
+        CURL_OK=0
+        DOWNLOAD_SOURCE=""
+
+        # Resume: file already present from a previous run?
+        if [ -s "$KDK_TMP_DMG" ]; then
+            echo ""
+            echo "An existing KDK file was found at:"
+            echo "  $KDK_TMP_DMG"
+            echo "Size: $(du -h "$KDK_TMP_DMG" | awk '{print $1}')"
+            echo ""
+            USE_EXISTING=$(osascript -e 'display dialog "An existing KDK file was found.
+
+Use it (skip the download)?" buttons {"Download again", "Use existing"} default button "Use existing" with icon note' -e 'return button returned of result' 2>/dev/null)
+            if [ "$USE_EXISTING" = "Use existing" ]; then
+                CURL_OK=1
+                DOWNLOAD_SOURCE="existing file"
+                echo "Using the existing file. Skipping download."
+            else
+                rm -f "$KDK_TMP_DMG"
+            fi
+        fi
+
+        # ---------- TIER 1: dortania (HEAD check, then download) ----------
+        if [ "$CURL_OK" -ne 1 ]; then
+            echo ""
+            echo "--- Tier 1: dortania/KdkSupportPkg (GitHub) ---"
+
+            HTTP_CODE=$(curl -sIL --connect-timeout 30 -o /dev/null -w "%{http_code}" "$T1_URL" 2>/dev/null)
+            echo "Existence check: HTTP $HTTP_CODE"
+
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+                echo "Release exists. Downloading with progress..."
+                echo ""
+
+                T1_SHA=""
+                curl -sfL --connect-timeout 30 "$T1_SHA_URL" -o /Private/tmp/KDK_T1_SHA256SUM 2>/dev/null
+                if [ -s /Private/tmp/KDK_T1_SHA256SUM ]; then
+                    T1_SHA=$(grep "Kernel_Debug_Kit_${macOSVersion}_build_${BuildVersion}.dmg" /Private/tmp/KDK_T1_SHA256SUM 2>/dev/null | awk '{print $1}')
+                    if [ -n "$T1_SHA" ]; then
+                        echo "Dortania SHA256: $T1_SHA"
+                    fi
+                fi
+
+                if curl -fL --connect-timeout 60 --retry 2 --retry-delay 5 \
+                    -o "$KDK_TMP_DMG" "$T1_URL"; then
+                    CURL_OK=1
+                    DOWNLOAD_SOURCE="dortania/KdkSupportPkg"
+                    echo ""
+                    echo "Tier 1 download complete."
+
+                    if [ -n "$T1_SHA" ]; then
+                        KDK_SHA="$T1_SHA"
+                    fi
+                else
+                    echo "Tier 1 download failed."
+                    rm -f "$KDK_TMP_DMG"
+                fi
+            else
+                echo "No dortania release for build $BuildVersion (HTTP $HTTP_CODE)."
+                echo "Moving to Tier 2..."
+            fi
+        fi
+
+        # ---------- TIER 2: laobamac (visible progress, 3 tries) ----------
+        if [ "$CURL_OK" -ne 1 ] && [ -n "$T2_URL" ]; then
+            echo ""
+            echo "--- Tier 2: laobamac server (China route - can be slow) ---"
+            echo "URL: $T2_URL"
+            echo ""
+
+            for attempt in 1 2 3; do
+                echo "--- Download attempt $attempt of 3 ---"
+                if curl -fL --connect-timeout 60 --retry 2 --retry-delay 5 \
+                    --speed-time 60 --speed-limit 10240 \
+                    -o "$KDK_TMP_DMG" "$T2_URL"; then
+                    CURL_OK=1
+                    DOWNLOAD_SOURCE="laobamac server"
+                    echo ""
+                    echo "Tier 2 download complete."
+                    break
+                fi
+                echo "Attempt $attempt failed."
+                sleep 5
+            done
+        fi
+
+        # ---------- TIER 3: MANUAL ----------
+        if [ "$CURL_OK" -ne 1 ]; then
+            echo ""
+            echo "======================================================"
+            echo "  MANUAL DOWNLOAD REQUIRED"
+            echo "======================================================"
+            echo ""
+            echo "All automatic sources failed. Download the KDK manually"
+            echo "from one of these URLs:"
+            echo ""
+            if [ -n "$T2_URL" ]; then
+                echo "  laobamac (China):"
+                echo "  $T2_URL"
+                echo ""
+            fi
+            echo "  Dortania (only if the release exists):"
+            echo "  $T1_URL"
+            echo ""
+            echo "Place the downloaded file at:"
+            echo "  $KDK_TMP_DMG"
+            echo ""
+            echo "Then re-run this script - it will verify the SHA256"
+            echo "and continue automatically."
+            echo ""
+            exit 1
+        fi
+
+        # ------------------------------------------------------------
+        # SHA256 VERIFY - single pass
+        # ------------------------------------------------------------
+        echo ""
+        echo "Verifying SHA256 checksum..."
+        echo "Source: $DOWNLOAD_SOURCE"
+
+        if [ -n "$KDK_SHA" ]; then
+            DOWNLOADED_SHA=$(shasum -a 256 "$KDK_TMP_DMG" | awk '{print $1}')
+            echo "  Expected: $KDK_SHA"
+            echo "  Got:      $DOWNLOADED_SHA"
+
+            if [ "$DOWNLOADED_SHA" != "$KDK_SHA" ]; then
+                echo ""
+                echo "FATAL: SHA256 MISMATCH!"
+                echo "The downloaded file is corrupted or is not the correct KDK."
+                echo "The system was NOT modified."
+                rm -f "$KDK_TMP_DMG"
+                exit 1
+            fi
+            echo "SHA256: OK"
+        else
+            echo "No reference SHA256 available - proceeding with install."
+            echo "(The KDK pkg is Apple-signed; installer verifies signatures.)"
+        fi
+
+        # ------------------------------------------------------------
+        # 🔑 ONE ADMIN PROMPT: install + merge + permissions + rebuild
+        # + bless. All in ONE root shell = ONE password.
+        # ------------------------------------------------------------
+        echo "Attach Kernel_Debug_Kit"
+        hdiutil attach "$KDK_TMP_DMG" -noverify -nobrowse -mountpoint /Volumes/KDK
+
+        echo "Install Kernel_Debug_Kit + Kext Cache repair + Merge + Rebuild"
+        echo "(admin password - asked ONCE for all operations)"
+        sleep 1
+
+        osascript -e 'do shell script "installer -allowUntrusted -verboseR -pkg /Volumes/KDK/KernelDebugKit.pkg -target /; rsync -r -a /Library/Developer/KDKs/*.kdk/System/Library/Extensions/ /System/Volumes/Update/mnt1/System/Library/Extensions; kmutil create --update-all --volume-root /System/Volumes/Update/mnt1/ --update-all --allow-missing-kdk; bless --folder /System/Volumes/Update/mnt1/System/Library/CoreServices --bootefi --create-snapshot" with administrator privileges'
+
+        sleep 1
+
+        # ✅ VERIFY BEFORE RESTART - Libkern marker check
+        if [ ! -f "/System/Volumes/Update/mnt1/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Libkern" ]; then
+            echo "FATAL: KDK merge could not be verified - NOT restarting."
+            diskutil unmount /System/Volumes/Update/mnt1 2>/dev/null
+            exit 1
+        fi
+        echo "KDK merge successful"
+
+        diskutil unmount /System/Volumes/Update/mnt1
+        echo "Unmount the root volume, operation complete"
+        sleep 2
+
+    fi
+fi
+
+#### END OF SCRIPT ####
+echo "======================================================"
+echo "Kext-Drop Completed Done! - $( date )"
+echo "====================================================="
+mv "$LOG" "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+sleep 1
+open -R "$HOME/Desktop/Kext-Drop_Log.txt" 2>/dev/null
+echo "Restart"
+sleep 1
+osascript <<EOD
+  tell application "loginwindow"
+    «event aevtrrst»
+  end tell
+EOD
+sleep 1
+killall "Kext-Drop"
+sleep 1
+echo "QUITAPP"

@@ -18,7 +18,7 @@ BUSLEDir="$HOME/Desktop/BackupKext_SLE_"
 BUKextDrop="$HOME/Desktop/Backup_For_Kext_Drop_"
 TempDir="/Private/tmp/Install"
 apptitle="Kext-Drop"
-version="1.0"
+version="17.5"
 # Set Icon directory and file 
 export ICNS=$(dirname "${0}")
 iconfile="$ICNS/AppIcon.icns"
@@ -388,8 +388,8 @@ echo User Drop "${file##*/}"
 Sleep 1
 done
 echo " "
-osascript -e 'do shell script "cp -R /Private/tmp/Install/.* /System/Volumes/Update/mnt1/System/Library/Extensions/" with administrator privileges'
-echo "====================================================="
-./Kext-Drop 2>&1 | tee $kextdroplog
+osascript -e 'do shell script "cp -R /Private/tmp/Install/*.kext /System/Volumes/Update/mnt1/System/Library/Extensions/" with administrator privileges'
+echo "Kext-Drop Patcher Starting. . . Wait!"
+osascript -e 'do shell script "./Kext-Drop-v17-5" with administrator privileges'
 fi
 done
